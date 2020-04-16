@@ -1,0 +1,16 @@
+{% extends 'base.html' %} {% block title %} Questions {% endblock %} {% block
+content %}
+<form id="form-mehh" method="POST" action="/answers">
+	{% for choice in ask_question.choices %}
+	<input
+		onclick="handleClick()"
+		type="radio"
+		id="{{choice}}"
+		name="answer"
+		value="{{choice}}"
+	/>
+	<label for="{{choice}}">{{choice}}</label><br />
+	{% endfor %}
+</form>
+<p>{{ask_question.question}}</p>
+{% endblock %}

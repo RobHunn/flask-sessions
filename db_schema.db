@@ -1,0 +1,62 @@
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'),
+                            nullable=False)
+    post = db.relationship('Post',
+                               backref=db.backref('user', lazy=True))
+    
+    def __repr__(self):
+        return '<User %r>' % self.username
+
+
+class Post(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    pub_date = db.Column(db.DateTime, nullable=False,
+                         default=datetime.utcnow)
+
+    category_id = db.Column(db.Integer, db.ForeignKey('category.id'),
+                            nullable=False)
+    category = db.relationship('Category',
+                               backref=db.backref('posts', lazy=True))
+    answer_id = db.Column(db.Integer, db.ForeignKey('answer.id'),
+                            nullable=False)
+    answers = db.relationship('Answers',
+                               backref=db.backref('posts', lazy=True))
+
+    def __repr__(self):
+        return '<Post %r>' % self.title
+
+
+class Category(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    instructions = db.Column(db.String(200), nullable=False)
+    questions_id = db.Column(db.Integer, db.ForeignKey('qestions.id'),
+                            nullable=False)
+    question = db.relationship('Questions',
+                               backref=db.backref('category', lazy=True))
+
+    def __repr__(self):
+        return '<Category %r>' % self.name
+
+class Qestions(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    q1 = db.Column(db.String(150), nullable=False)
+    q2 = db.Column(db.String(150), nullable=False)
+    q3 = db.Column(db.String(150), nullable=False)
+    q4 = db.Column(db.String(150), nullable=False)
+
+    def __repr__(self):
+        return '<Questions %r>' % self.name
+
+
+class Answers(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    a1 = db.Column(db.String(150), nullable=False)
+    a2 = db.Column(db.String(150), nullable=False)
+    a3 = db.Column(db.String(150), nullable=False)
+    a4 = db.Column(db.String(150), nullable=False)
+
+    def __repr__(self):
+        return '<Answers %r>' % self.name
